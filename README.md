@@ -6,7 +6,8 @@ SqlERDiagrammDrawer is a Windows Forms application written in .NET that allows d
 
 It is useful for both database design and reverse engineering of existing databases.
 ## 📹 Video
-![ezgif-4e5a8ec73486569f](https://github.com/user-attachments/assets/cd22769b-d7a1-4456-a500-b07b362a8686)
+
+![ezgif-42eb9a76f804f4bc](https://github.com/user-attachments/assets/dd6fa570-7e8b-402e-8d6c-bc3bba91737b)
 
 ![ezgif-4a7a44c6f03d0b93](https://github.com/user-attachments/assets/c6b11428-ea90-4c71-ab88-2f1d7d8035ec)
 
