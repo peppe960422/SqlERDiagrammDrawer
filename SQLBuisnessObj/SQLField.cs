@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SqlERDiagrammDrawer
+namespace SqlERDiagrammDrawer.SQLBuisnessObj
 {
     public class SQLField
     {
@@ -30,9 +30,9 @@ namespace SqlERDiagrammDrawer
             string isNullable = " ";
             ;
 
-            if (this.Primary) { isSpecial = "PK"; }
-            else if (this.Foreing) { isSpecial = "FK"; }
-            if (this.Nullable) { isNullable = "Null"; }
+            if (Primary) { isSpecial = "PK"; }
+            else if (Foreing) { isSpecial = "FK"; }
+            if (Nullable) { isNullable = "Null"; }
 
             ;
             return $" {Name} | {typ} | {isSpecial} | {isNullable}";

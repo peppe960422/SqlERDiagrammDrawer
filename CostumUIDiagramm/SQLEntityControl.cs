@@ -1,11 +1,13 @@
-﻿using System;
+﻿using SqlERDiagrammDrawer.Assets;
+using SqlERDiagrammDrawer.SQLBuisnessObj;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static SqlERDiagrammDrawer.FixedChildControl;
+using static SqlERDiagrammDrawer.CostumUIDiagramm.FixedChildControl;
 
-namespace SqlERDiagrammDrawer
+namespace SqlERDiagrammDrawer.CostumUIDiagramm
 {
     public class SqlEntityControl : MovingControl
     {
@@ -17,15 +19,15 @@ namespace SqlERDiagrammDrawer
 
         public SqlEntityControl(SQLEntity entity, FixedChildControlEventHandler ev)
         {
-            this.Entity = entity;
+            Entity = entity;
 
             //this.Color = Color.Beige;
             Childs = new FixedChildControl[3 + Entity.Fields.Count];
             FixedButton AddButton = new FixedButton(OnAddField);
             AddButton.width = 20;
             AddButton.height = 20;
-            AddButton.x = this.width - AddButton.width - 5;
-            AddButton.y = this.height - 25;
+            AddButton.x = width - AddButton.width - 5;
+            AddButton.y = height - 25;
             AddButton.Parent = this;
             AddButton.Icon = new Bitmap(ImageBase64Converter.Base64ToImage(ControlSQLAssets.PencilLogo), new Size(15, 15));
             Childs[0] = AddButton;
@@ -36,7 +38,7 @@ namespace SqlERDiagrammDrawer
             FkButton.width = 20;
             FkButton.height = 20;
             FkButton.x = 5;
-            FkButton.y = this.height - 25;
+            FkButton.y = height - 25;
             FkButton.Icon = new Bitmap(ImageBase64Converter.Base64ToImage(ControlSQLAssets.KeyIcon), new Size(15, 15));
             Childs[1] = FkButton;
 
@@ -44,7 +46,7 @@ namespace SqlERDiagrammDrawer
             fixedButton.Parent = this;
             fixedButton.width = 20;
             fixedButton.height = 20;
-            fixedButton.x = this.width - fixedButton.width - 5;
+            fixedButton.x = width - fixedButton.width - 5;
             fixedButton.y = 5;
             fixedButton.Icon = new Bitmap(ImageBase64Converter.Base64ToImage(ControlSQLAssets.TrashIcon), new Size(15, 15));
             Childs[2] = fixedButton;
@@ -57,7 +59,7 @@ namespace SqlERDiagrammDrawer
                 Childs[i].x = 0;
                 Childs[i].y = 45 + (i - 3) * 20;
                 Childs[i].height = 20;
-                Childs[i].width = this.width;
+                Childs[i].width = width;
 
 
             }
@@ -75,7 +77,7 @@ namespace SqlERDiagrammDrawer
         private void OnMinimize(object sender, MouseEventArgs e)
         {
             MessageBox.Show("Minimize clicked");
-            if (AutoSize) { this._height = 50; AutoSize = false; }
+            if (AutoSize) { _height = 50; AutoSize = false; }
             else { AutoSize = true; }
         }
 
@@ -134,7 +136,7 @@ namespace SqlERDiagrammDrawer
 
         protected override int SetAutomaticHeight()
         {
-            return (80 + (Entity.Fields.Count * 20));
+            return 80 + Entity.Fields.Count * 20;
 
         }
 

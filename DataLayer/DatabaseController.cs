@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySqlConnector;
+using SqlERDiagrammDrawer.SQLBuisnessObj;
 
-namespace SqlERDiagrammDrawer
+namespace SqlERDiagrammDrawer.DataLayer
 {
     internal class DatabaseController
     {
@@ -17,18 +18,18 @@ namespace SqlERDiagrammDrawer
 
         string QueryDump { get; set; }
 
-        public Keys[] Keys { get; set; }
+        public SQLBuisnessObj.Keys[] Keys { get; set; }
         public DatabaseController()
         {
 
 
 
         }
-        public Task<List<Keys>> GetKeys(string DB, List<SQLEntity> entities)
+        public Task<List<SQLBuisnessObj.Keys>> GetKeys(string DB, List<SQLEntity> entities)
         {
             return Task.Run(() =>
             {
-                List<Keys> FKs = new List<Keys>();
+                List<SQLBuisnessObj.Keys> FKs = new List<SQLBuisnessObj.Keys>();
                 string queryKeys = @$"
             SELECT 
                 TABLE_NAME ,
@@ -54,7 +55,7 @@ namespace SqlERDiagrammDrawer
                             string columnName = reader["COLUMN_NAME"].ToString();
                             string referencedTable = reader["REFERENCED_TABLE_NAME"].ToString();
                             string referencedColumn = reader["REFERENCED_COLUMN_NAME"].ToString();
-                            Keys keys = new Keys();
+                            SQLBuisnessObj.Keys keys = new SQLBuisnessObj.Keys();
                             SQLEntity primary = entities.First((x) => x.NameEntity == referencedTable);
                             SQLEntity foreing = entities.First((x) => x.NameEntity == tableName);
 
@@ -99,7 +100,7 @@ namespace SqlERDiagrammDrawer
                             {
                                 while (reader.Read())
                                 {
-                                    string name = ((string)reader["TABLE_NAME"]);
+                                    string name = (string)reader["TABLE_NAME"];
                                     Debug.WriteLine(name);
                                     SQLEntity entity = new SQLEntity();
                                     entity.NameEntity = name;
@@ -186,7 +187,7 @@ namespace SqlERDiagrammDrawer
 
             return Task.Run(() =>
             {
-                this.ConnectionString = $"Server={Server};Database={Db};User={User};Password={Password};";
+                ConnectionString = $"Server={Server};Database={Db};User={User};Password={Password};";
                 using (MySqlConnection SqlConn = new MySqlConnection(ConnectionString))
                 {
                     try
@@ -215,7 +216,7 @@ namespace SqlERDiagrammDrawer
             });
         }
 
-        public void CreateKey(Keys[] keys, RichTextBox p, FormForwardEng ctrl)
+        public void CreateKey(SQLBuisnessObj.Keys[] keys, RichTextBox p, FormForwardEng ctrl)
         {
 
 
@@ -286,7 +287,7 @@ namespace SqlERDiagrammDrawer
 
 
 
-        public Task CreateTables(SQLEntity[] entities, Keys[] keys, RichTextBox p, FormForwardEng ctrl)
+        public Task CreateTables(SQLEntity[] entities, SQLBuisnessObj.Keys[] keys, RichTextBox p, FormForwardEng ctrl)
         {
 
             return Task.Run(async () =>

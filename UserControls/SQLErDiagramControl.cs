@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using SqlERDiagrammDrawer.SQLBuisnessObj;
+using SqlERDiagrammDrawer.CostumUIDiagramm;
 
 namespace SqlERDiagrammDrawer
 {
@@ -44,7 +46,7 @@ namespace SqlERDiagrammDrawer
             sideBar.buttonImport.Click += ImportClick;
         }
 
-        public void ImportTables(List<SQLEntity> entities, List<Keys> keys)
+        public void ImportTables(List<SQLEntity> entities, List<SQLBuisnessObj.Keys> keys)
         {
             int x = 50; int y = 50;
 
@@ -88,7 +90,7 @@ namespace SqlERDiagrammDrawer
         {
             FormForwardEng formForwardEng = new FormForwardEng(form: this);
             List<SQLEntity> entities = new List<SQLEntity>();
-            List<Keys> keys = new List<Keys>();
+            List<SQLBuisnessObj.Keys> keys = new List<SQLBuisnessObj.Keys>();
             foreach (MovingControl entity in uiManager.controls)
             {
 

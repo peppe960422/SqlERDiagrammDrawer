@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SqlERDiagrammDrawer
+namespace SqlERDiagrammDrawer.CostumUIDiagramm
 {
     public class UIManager
     {

@@ -1,11 +1,13 @@
-﻿using System;
+﻿using SqlERDiagrammDrawer.Assets;
+using SqlERDiagrammDrawer.SQLBuisnessObj;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SqlERDiagrammDrawer
+namespace SqlERDiagrammDrawer.CostumUIDiagramm
 {
     public class InvisibleFixedField : FixedChildControl
     {
@@ -31,14 +33,14 @@ namespace SqlERDiagrammDrawer
 
 
 
-            g.FillRectangle(this.brushes[IndexBrush], new Rectangle(x, y, width, height));
-            if (isEnlighted || this.brushes[IndexBrush].Color == Color.Blue)
+            g.FillRectangle(brushes[IndexBrush], new Rectangle(x, y, width, height));
+            if (isEnlighted || brushes[IndexBrush].Color == Color.Blue)
             {
-                g.DrawString(this.SQLField.ToString().Trim(' '), font, Brushes.White, new PointF(this.x + 5, y));
+                g.DrawString(SQLField.ToString().Trim(' '), font, Brushes.White, new PointF(x + 5, y));
             }
             else
             {
-                g.DrawString(this.SQLField.ToString().Trim(' '), font, Brushes.Black, new PointF(this.x + 5, y));
+                g.DrawString(SQLField.ToString().Trim(' '), font, Brushes.Black, new PointF(x + 5, y));
             }
 
 
@@ -49,9 +51,9 @@ namespace SqlERDiagrammDrawer
 
         public InvisibleFixedField(FixedChildControlEventHandler ev, SQLField sQLField, MovingControl parent)
         {
-            this.Parent = parent;
-            this.MouseDown += ev;
-            this.SQLField = sQLField;
+            Parent = parent;
+            MouseDown += ev;
+            SQLField = sQLField;
         }
 
         public override void OnMouseEnter(MouseEventArgs e)
@@ -138,18 +140,18 @@ namespace SqlERDiagrammDrawer
         public virtual void OnMouseEnter(MouseEventArgs e)
         {
 
-            if (this.Rectangle.Contains(e.Location) || isEnlighted)
+            if (Rectangle.Contains(e.Location) || isEnlighted)
             {
-                this.IndexBrush = 1;
+                IndexBrush = 1;
             }
 
         }
         public virtual void OnMouseLeave(MouseEventArgs e)
         {
 
-            if (!this.Rectangle.Contains(e.Location) && !isEnlighted)
+            if (!Rectangle.Contains(e.Location) && !isEnlighted)
             {
-                this.IndexBrush = 0;
+                IndexBrush = 0;
             }
 
         }
@@ -196,7 +198,7 @@ namespace SqlERDiagrammDrawer
 
         public FixedButton(FixedChildControlEventHandler ev)
         {
-            this.MouseDown += ev;
+            MouseDown += ev;
 
         }
 

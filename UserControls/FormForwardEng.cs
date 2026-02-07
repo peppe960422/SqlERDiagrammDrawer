@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SqlERDiagrammDrawer.DataLayer;
+using SqlERDiagrammDrawer.SQLBuisnessObj;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,7 +23,7 @@ namespace SqlERDiagrammDrawer
         RichTextBox txtBoxMeldung = new RichTextBox { Visible = false, Location = new Point(10, 10), Size = new Size(300, 600) };
        SQLErDiagramControl form;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Keys[] Keys { get; set; }
+        public SQLBuisnessObj.Keys[] Keys { get; set; }
         TextBox[] ipText = new TextBox[4];
         TextBox UserBox;
         TextBox PwdBox;
@@ -67,7 +69,7 @@ namespace SqlERDiagrammDrawer
         {
             ConnectEvent(sender, e);
             List<SQLEntity> list = DBController.GetEntities(DbBox.Text).Result;
-            List<Keys> keys = DBController.GetKeys(DbBox.Text, list).Result;
+            List<SQLBuisnessObj.Keys> keys = DBController.GetKeys(DbBox.Text, list).Result;
             form.ImportTables(list, keys);
 
 

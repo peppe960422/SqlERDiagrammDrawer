@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SqlERDiagrammDrawer.Assets;
+using System.Text.RegularExpressions;
+
 
 namespace SqlERDiagrammDrawer
 {
@@ -22,40 +25,84 @@ namespace SqlERDiagrammDrawer
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Button buttonImport { get; set; } = new Button { Size = new Size(80, 80) };
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Button buttonSnap { get; set; } = new Button { Size = new Size(80, 80) };
+
         bool isDisappearing = false;
         Image importIcon = ImageBase64Converter.Base64ToImage(ControlSQLAssets.ImportFromDBIcon);
         Image exportIcon = ImageBase64Converter.Base64ToImage(ControlSQLAssets.ExportToDBIcon);
         Image NewEntityIcon = ImageBase64Converter.Base64ToImage(ControlSQLAssets.NewSQLEntityIcon);
 
+        const int BUTTON_HEIGHT = 80;
+
         public DisapperingSideBar(Control Parent)
         {
             InitializeComponent();
+            Button[] buttons = { buttonNewEntity, buttonExport, buttonImport, buttonSnap };
             this.Width = 90;
-            this.Height = 240;
+            this.Height = BUTTON_HEIGHT * buttons.Length;
             this.Location = Parent == null ? new Point(0, 0) : new Point(Parent.Width, 160);
             t.Interval = 20;
             t.Tick += T_Tick;
             Parent.MouseMove += DisapperingSideBar_MouseMove;
-            buttonNewEntity.Location = new Point(0, 0);
-            //buttonNewEntity.Text = "New";
-            buttonExport.Location = new Point(0, 80);
-            //buttonExport.Text = "Export";
-            buttonImport.Location = new Point(0, 160);
-            this.Controls.Add(buttonNewEntity);
-            this.Controls.Add(buttonExport);
-            this.Controls.Add(buttonImport);
+
+            for (int i = 0; i < buttons.Length; i++) { buttons[i].Location = new Point(0, i * BUTTON_HEIGHT); }
+
+            this.Controls.AddRange(buttons);
             Parent.Resize += Parent_Resize;
             this.BackColor = Color.LightGray;
             this.BorderStyle = BorderStyle.FixedSingle;
             buttonExport.Image = exportIcon;
             buttonImport.Image = importIcon;
             buttonNewEntity.Image = NewEntityIcon;
+            buttonSnap.Click += ButtonSnap_Click;
 
 
 
 
         }
+        private void SaveImageFromClipboard(object sender, EventArgs e)
+        {
+            if (!Clipboard.ContainsImage())
+            {
+                MessageBox.Show("Clipboard does not contain an image.");
+                return;
+            }
 
+            Image img = Clipboard.GetImage();
+
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "PNG Image|*.png|JPEG Image|*.jpg|Bitmap Image|*.bmp";
+                sfd.Title = "Save image";
+                sfd.FileName = $"SQL_Diagramm_{DateTime.Now.ToString("YYYY_MM_DD_HH_mm")}";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var ext = Path.GetExtension(sfd.FileName).ToLower();
+
+                    switch (ext)
+                    {
+                        case ".jpg":
+                            img.Save(sfd.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            break;
+                        case ".bmp":
+                            img.Save(sfd.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+                            break;
+                        default:
+                            img.Save(sfd.FileName, System.Drawing.Imaging.ImageFormat.Png);
+                            break;
+                    }
+                }
+            }
+        }
+        private void ButtonSnap_Click(object? sender, EventArgs e)
+        {
+            CaptureScreenForm.Capture screenShotForm = new CaptureScreenForm.Capture(this.ParentForm);
+            screenShotForm.Show();
+            screenShotForm.FormClosed += SaveImageFromClipboard;
+
+        }
 
 
         private void Parent_Resize(object? sender, EventArgs e)

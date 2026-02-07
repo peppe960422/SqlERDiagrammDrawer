@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SqlERDiagrammDrawer.SQLBuisnessObj;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SqlERDiagrammDrawer
+namespace SqlERDiagrammDrawer.DataLayer
 {
     internal class SQLCommandBuilder
     {
@@ -19,8 +20,8 @@ namespace SqlERDiagrammDrawer
 
 
             string commandCreate = $"CREATE TABLE `{Entity.NameEntity}` (";
-            string primaryKey = String.Empty;
-            string fields = String.Empty;
+            string primaryKey = string.Empty;
+            string fields = string.Empty;
             for (int i = 0; i < Entity.Fields.Count; i++)
             {
 
@@ -66,7 +67,7 @@ namespace SqlERDiagrammDrawer
             return commandCreate + fields + primaryKey;
         }
 
-        public string CreateKey(Keys Key)
+        public string CreateKey(SQLBuisnessObj.Keys Key)
         {
 
             return $"ALTER TABLE {Key.ForeingTableName}" +

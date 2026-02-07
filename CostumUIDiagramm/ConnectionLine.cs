@@ -1,11 +1,12 @@
-﻿using System;
+﻿using SqlERDiagrammDrawer.SQLBuisnessObj;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SqlERDiagrammDrawer
+namespace SqlERDiagrammDrawer.CostumUIDiagramm
 {
     public abstract class ConnectionLine
     {
@@ -86,16 +87,16 @@ namespace SqlERDiagrammDrawer
 
         InvisibleFixedField FKHolder { get; set; }
 
-        public Keys Keys { get; set; }
+        public SQLBuisnessObj.Keys Keys { get; set; }
 
 
         public SQLConnectionLine(SqlEntityControl a, SqlEntityControl b, InvisibleFixedField pk, InvisibleFixedField fk) : base(a, b)
         {
-            this.Keys = new Keys();
-            this.Keys.ForeingKey = fk.SQLField;
-            this.Keys.PrimaryKey = pk.SQLField;
-            this.Keys.PrimaryTableName = a.Entity.NameEntity;
-            this.Keys.ForeingTableName = b.Entity.NameEntity;
+            Keys = new SQLBuisnessObj.Keys();
+            Keys.ForeingKey = fk.SQLField;
+            Keys.PrimaryKey = pk.SQLField;
+            Keys.PrimaryTableName = a.Entity.NameEntity;
+            Keys.ForeingTableName = b.Entity.NameEntity;
             PKHolder = pk;
             FKHolder = fk;
             ConnectionDot = new GraficConnectionDot();
@@ -130,10 +131,10 @@ namespace SqlERDiagrammDrawer
             for (int i = 0; i < points.Length - 1; i++)
             {
 
-                if (((e.Location.X > points[i].X - 5 && e.Location.X < points[i + 1].X + 5) ||
-                   (e.Location.X < points[i].X + 5 && e.Location.X > points[i + 1].X - 5)) &&
-                   ((e.Location.Y < points[i].Y + 5 && e.Location.Y > points[i + 1].Y - 5) ||
-                   (e.Location.Y > points[i].Y - 5 && e.Location.Y < points[i + 1].Y + 5)))
+                if ((e.Location.X > points[i].X - 5 && e.Location.X < points[i + 1].X + 5 ||
+                   e.Location.X < points[i].X + 5 && e.Location.X > points[i + 1].X - 5) &&
+                   (e.Location.Y < points[i].Y + 5 && e.Location.Y > points[i + 1].Y - 5 ||
+                   e.Location.Y > points[i].Y - 5 && e.Location.Y < points[i + 1].Y + 5))
                 {
 
 
